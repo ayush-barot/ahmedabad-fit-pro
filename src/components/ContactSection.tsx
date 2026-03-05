@@ -6,18 +6,32 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Phone, MessageCircle, PhoneCall } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const ContactSection = () => {
   const [callbackName, setCallbackName] = useState("");
   const [callbackPhone, setCallbackPhone] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleCallback = (e: React.FormEvent) => {
+  const handleCallback = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!callbackName.trim() || !callbackPhone.trim()) return;
-    toast({ title: "Callback Requested!", description: "We'll call you back within 30 minutes." });
-    setCallbackName("");
-    setCallbackPhone("");
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase.from("callback_requests").insert({
+        name: callbackName.trim(),
+        phone: callbackPhone.trim(),
+      });
+      if (error) throw error;
+      toast({ title: "Callback Requested!", description: "We'll call you back within 30 minutes." });
+      setCallbackName("");
+      setCallbackPhone("");
+    } catch {
+      toast({ title: "Error", description: "Something went wrong. Please try again.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -79,7 +93,9 @@ const ContactSection = () => {
                     onChange={(e) => setCallbackPhone(e.target.value)}
                     className="h-8 text-xs bg-background/50"
                   />
-                  <Button size="sm" type="submit" className="w-full">Request</Button>
+                  <Button size="sm" type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? "Sending..." : "Request"}
+                  </Button>
                 </form>
               </CardContent>
             </Card>
