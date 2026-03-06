@@ -29,6 +29,7 @@ const Index = () => {
       <BookingSection />
       <Footer />
       <StickyCTA />
+      <ExitIntentPopup />
     </div>
   );
 };
