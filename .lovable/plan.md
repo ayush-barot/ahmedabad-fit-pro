@@ -1,45 +1,51 @@
 
 
-## Current Button Status
+# Project Status & Remaining Work
 
-Most buttons are already active — they use anchor links (`#booking`, `#contact`, etc.) to scroll to sections. Here's what needs fixing:
+## What's Already Built (Complete)
+- Full homepage with all sections (Hero, About, Services, Pricing, Testimonials, FAQ, Contact, Booking)
+- Booking form saving to database
+- Callback request form saving to database
+- Admin login with role-based security (RLS + has_role)
+- Admin dashboard with analytics charts (Recharts), KPI cards, revenue estimate
+- Bookings management with search, filter, status update, CSV export
+- Callback requests management with status tracking
+- Mobile sticky CTA bar, scarcity badge
+- Dark theme with neon accents, animations (Framer Motion)
+- SEO meta tags and JSON-LD structured data
 
-### Buttons that need activation:
-1. **Callback Request form** — saves to toast only, not to database. Should store in a `callback_requests` table.
-2. **Phone number** (`+91 98765 43210`) — placeholder number, needs your real number.
-3. **WhatsApp link** — uses placeholder number `919876543210`, needs your real number.
-4. **Sticky CTA Call button** — same placeholder number.
+## What's Still Remaining
 
-### Plan to fix:
-1. **Create `callback_requests` table** in the database to store name + phone from the Contact section form.
-2. **Update phone/WhatsApp numbers** — I'll need your real phone number to replace the placeholder `+91 98765 43210`.
+### 1. Phone Number — Placeholder Still Active
+All contact buttons use `+91 98765 43210`. Need your real number to update in:
+- ContactSection (Call + WhatsApp buttons)
+- Footer
+- StickyCTA
+
+### 2. Exit-Intent Popup (Lead Capture)
+When visitor moves mouse to close/leave tab, show a popup: "Wait! Get a Free Consultation Before You Go" with name + phone fields, saving to `callback_requests`.
+
+### 3. Countdown Timer (Urgency)
+Add a countdown timer in hero/scarcity section showing "Limited slots closing in X hours" to drive conversions.
+
+### 4. Admin Account Setup
+You need to create your trainer admin account. I'll need your email and password to sign up and assign the admin role in `user_roles`.
+
+### 5. Real Content (Images & Text)
+- Trainer photo for About section
+- Client transformation photos
+- Real testimonials with names
+- Actual certification details
 
 ---
 
-## What else can be added
+## Implementation Plan
 
-Here are features that would significantly improve the website:
+I'll build items 2 and 3 right now (exit-intent popup + countdown timer), and ask for your phone number and admin credentials to complete items 1 and 4.
 
-1. **Admin Dashboard** (from the original plan, not yet built)
-   - Trainer login page with email/password
-   - Dashboard with total bookings, area-wise chart, upcoming sessions, revenue estimate
-   - Bookings table with search, filter, and CSV export
-
-2. **Exit-Intent Popup** — when a visitor tries to leave, show a lead capture popup ("Get a free consultation before you go!")
-
-3. **Countdown Timer** — show a live countdown for limited slots to increase urgency
-
-4. **Google Maps Embed** — show the service areas in Ahmedabad on a map
-
-5. **Before/After Transformation Gallery** — upload real client transformation photos
-
-6. **Instagram/Social Media Feed** — embed your Instagram posts for social proof
-
-7. **Blog/Tips Section** — fitness tips articles for SEO ranking
-
-8. **Booking Notifications** — SMS/WhatsApp alert to trainer when someone books (via Twilio)
-
-9. **Client Testimonial Videos** — embed YouTube video testimonials
-
-10. **Multi-language Support** — Hindi + English toggle for local audience
+### Changes:
+1. **Create `ExitIntentPopup.tsx`** — Detects `mouseleave` on document, shows a glass-styled dialog with name/phone form, saves to `callback_requests`, uses localStorage to show only once per session
+2. **Create `CountdownTimer.tsx`** — Displays a live countdown timer (resets daily at midnight) with hours/minutes/seconds in neon-styled boxes, placed below the ScarcityBadge
+3. **Add both components to `Index.tsx`**
+4. **Ask for phone number** to update all placeholder contacts
 
