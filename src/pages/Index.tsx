@@ -30,6 +30,7 @@ const Index = () => {
       <BookingSection />
       <Footer />
       <StickyCTA />
+      <WhatsAppButton />
       <ExitIntentPopup />
     </div>
   );
