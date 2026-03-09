@@ -55,7 +55,7 @@ const ContactSection = () => {
                 <h3 className="font-display font-bold mb-2">Call Now</h3>
                 <p className="text-muted-foreground text-xs mb-4">Speak directly with the trainer</p>
                 <Button size="sm" variant="outline" className="border-primary/30" asChild>
-                  <a href="tel:+919876543210">Call Now</a>
+                  <a href="tel:+919725173135">Call Now</a>
                 </Button>
               </CardContent>
             </Card>
