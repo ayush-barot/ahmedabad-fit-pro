@@ -68,7 +68,7 @@ const ContactSection = () => {
                 <h3 className="font-display font-bold mb-2">WhatsApp</h3>
                 <p className="text-muted-foreground text-xs mb-4">Chat on WhatsApp anytime</p>
                 <Button size="sm" variant="outline" className="border-primary/30" asChild>
-                  <a href="https://wa.me/919876543210?text=Hi%2C%20I%27m%20interested%20in%20personal%20training" target="_blank" rel="noopener noreferrer">Chat Now</a>
+                  <a href="https://wa.me/919725173135?text=Hi%2C%20I%27m%20interested%20in%20personal%20training" target="_blank" rel="noopener noreferrer">Chat Now</a>
                 </Button>
               </CardContent>
             </Card>
