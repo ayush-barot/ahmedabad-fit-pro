@@ -25,7 +25,7 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-bold mb-3">Contact</h4>
             <div className="space-y-2 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-primary" /> +91 98765 43210</div>
+              <div className="flex items-center gap-2"><Phone className="w-4 h-4 text-primary" /> +91 97251 73135</div>
               <div className="flex items-center gap-2"><MessageCircle className="w-4 h-4 text-primary" /> WhatsApp Available</div>
               <div className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary" /> Ahmedabad, Gujarat</div>
             </div>
