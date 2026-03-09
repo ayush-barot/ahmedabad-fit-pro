@@ -12,6 +12,7 @@ import BookingSection from "@/components/BookingSection";
 import Footer from "@/components/Footer";
 import StickyCTA from "@/components/StickyCTA";
 import ExitIntentPopup from "@/components/ExitIntentPopup";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
   return (
@@ -29,6 +30,7 @@ const Index = () => {
       <BookingSection />
       <Footer />
       <StickyCTA />
+      <WhatsAppButton />
       <ExitIntentPopup />
     </div>
   );
