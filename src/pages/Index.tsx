@@ -6,6 +6,7 @@ import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import PricingSection from "@/components/PricingSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import BMICalculator from "@/components/BMICalculator";
 import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import BookingSection from "@/components/BookingSection";
@@ -25,6 +26,7 @@ const Index = () => {
       <ServicesSection />
       <PricingSection />
       <TestimonialsSection />
+      <BMICalculator />
       <FAQSection />
       <ContactSection />
       <BookingSection />
