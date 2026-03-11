@@ -26,6 +26,7 @@ const Index = () => {
       <ServicesSection />
       <PricingSection />
       <TestimonialsSection />
+      <BMICalculator />
       <FAQSection />
       <ContactSection />
       <BookingSection />
