@@ -83,6 +83,39 @@ export type Database = {
         }
         Relationships: []
       }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          referral_code: string
+          referred_name: string | null
+          referred_phone: string | null
+          referrer_name: string
+          referrer_phone: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referral_code: string
+          referred_name?: string | null
+          referred_phone?: string | null
+          referrer_name: string
+          referrer_phone: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referral_code?: string
+          referred_name?: string | null
+          referred_phone?: string | null
+          referrer_name?: string
+          referrer_phone?: string
+          status?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
