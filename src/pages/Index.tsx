@@ -6,8 +6,11 @@ import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import PricingSection from "@/components/PricingSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import TransformationGallery from "@/components/TransformationGallery";
 import BMICalculator from "@/components/BMICalculator";
+import BlogTipsSection from "@/components/BlogTipsSection";
 import FAQSection from "@/components/FAQSection";
+import ReferralSection from "@/components/ReferralSection";
 import ContactSection from "@/components/ContactSection";
 import BookingSection from "@/components/BookingSection";
 import Footer from "@/components/Footer";
@@ -26,8 +29,11 @@ const Index = () => {
       <ServicesSection />
       <PricingSection />
       <TestimonialsSection />
+      <TransformationGallery />
       <BMICalculator />
+      <BlogTipsSection />
       <FAQSection />
+      <ReferralSection />
       <ContactSection />
       <BookingSection />
       <Footer />
