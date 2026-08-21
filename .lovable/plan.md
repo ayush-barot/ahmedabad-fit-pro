@@ -1,45 +1,56 @@
+# Plan: Push FITGURU Project to GitHub (ayush-barot/AayushBarot15)
 
+## Goal
+Push the complete FITGURU project to `https://github.com/ayush-barot/AayushBarot15` so that anyone who clones it can run `npm install && npm run dev` and have a fully working app.
 
-## Current Button Status
+## Current State
+- Project is a git repo with a Lovable internal remote (not the user's GitHub).
+- `lovable-tagger` (only Lovable-specific dependency) is publicly on npm — clones will install fine.
+- `.env` is tracked by git and contains only public client-side values (Supabase URL, anon/publishable key, project ID — no service role key).
+- `.gitignore` does NOT exclude `.env`.
+- `README.md` is still the default Lovable template.
+- No GitHub connector is connected yet.
 
-Most buttons are already active — they use anchor links (`#booking`, `#contact`, etc.) to scroll to sections. Here's what needs fixing:
+## Steps
 
-### Buttons that need activation:
-1. **Callback Request form** — saves to toast only, not to database. Should store in a `callback_requests` table.
-2. **Phone number** (`+91 98765 43210`) — placeholder number, needs your real number.
-3. **WhatsApp link** — uses placeholder number `919876543210`, needs your real number.
-4. **Sticky CTA Call button** — same placeholder number.
+### 1. Prepare the project for clean cloning
+- **`.gitignore`** — Add `.env`, `.lovable/`, and `*.tsbuildinfo` so internal/secrets files don't get pushed.
+- **`.env.example`** (new) — Contains the actual public values (VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY, VITE_SUPABASE_PROJECT_ID) so the app runs out of the box after `cp .env.example .env`.
+- **`README.md`** — Rewrite with: project description, feature list, tech stack, clone-and-run instructions, env setup, admin access info, and project structure overview.
 
-### Plan to fix:
-1. **Create `callback_requests` table** in the database to store name + phone from the Contact section form.
-2. **Update phone/WhatsApp numbers** — I'll need your real phone number to replace the placeholder `+91 98765 43210`.
+### 2. Connect the GitHub connector
+- Call `standard_connectors--connect` with `connector_id: "github"`.
+- User authorizes via GitHub OAuth with `repo` scope (needed to push to their repository).
+- The user must authorize with the GitHub account that owns `ayush-barot/AayushBarot15`.
 
----
+### 3. Push all project files to the repo via GitHub Git Database API
+Using `standard_connectors--call_gateway_connection` through the gateway:
 
-## What else can be added
+1. **Check repo state** — GET `/repos/ayush-barot/AayushBarot15` to see if it's empty or has existing content.
+2. **Get base commit** (if repo has content) — GET `/repos/.../git/refs/heads/main` (or `master`) → get current commit SHA → GET `/repos/.../git/commits/{sha}` → get tree SHA.
+3. **Create tree with all files** — POST `/repos/.../git/trees` with a `tree` array containing every project file:
+   - Text files (`.tsx`, `.ts`, `.css`, `.json`, `.md`, etc.): inline `content` as utf-8 string.
+   - Binary files (`favicon.ico`, `bun.lockb`): inline `content` as base64 with `"encoding": "base64"`.
+   - If the body is too large for one call, split into multiple tree creations using `base_tree` to chain them.
+   - Excludes: `node_modules/`, `dist/`, `.git/`, `.lovable/`, `.env`.
+4. **Create commit** — POST `/repos/.../git/commits` with the new tree SHA and parent commit SHA.
+5. **Update branch ref** — PATCH `/repos/.../git/refs/heads/main` (or create the ref if the repo is empty).
 
-Here are features that would significantly improve the website:
+Result: a single clean commit with the entire project.
 
-1. **Admin Dashboard** (from the original plan, not yet built)
-   - Trainer login page with email/password
-   - Dashboard with total bookings, area-wise chart, upcoming sessions, revenue estimate
-   - Bookings table with search, filter, and CSV export
+### 4. Verify the push
+- GET `/repos/ayush-barot/AayushBarot15/contents/` to confirm the file tree is present.
+- Spot-check key files (package.json, src/App.tsx, supabase/migrations/) exist in the repo.
 
-2. **Exit-Intent Popup** — when a visitor tries to leave, show a lead capture popup ("Get a free consultation before you go!")
+### 5. Test clone-and-run (sandbox validation)
+- Clone the repo into `/tmp/test-clone` using the GitHub API or `git clone`.
+- Run `npm install` and `npm run build` to confirm the project compiles from the pushed files.
+- If build passes, the project is ready for GitHub.
 
-3. **Countdown Timer** — show a live countdown for limited slots to increase urgency
+## Files to modify (Step 1 only)
+- `.gitignore` — add `.env`, `.lovable/`
+- `.env.example` — new file
+- `README.md` — full rewrite
 
-4. **Google Maps Embed** — show the service areas in Ahmedabad on a map
-
-5. **Before/After Transformation Gallery** — upload real client transformation photos
-
-6. **Instagram/Social Media Feed** — embed your Instagram posts for social proof
-
-7. **Blog/Tips Section** — fitness tips articles for SEO ranking
-
-8. **Booking Notifications** — SMS/WhatsApp alert to trainer when someone books (via Twilio)
-
-9. **Client Testimonial Videos** — embed YouTube video testimonials
-
-10. **Multi-language Support** — Hindi + English toggle for local audience
-
+## Note
+For ongoing two-way sync between Lovable and GitHub, the user can also enable **Lovable Git Sync** in workspace settings. This push is a one-time export to get the code into their repository.
