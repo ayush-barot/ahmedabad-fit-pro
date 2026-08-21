@@ -1,73 +1,133 @@
-# Welcome to your Lovable project
+# FITGURU — Personal Trainer Booking Website (Ahmedabad)
 
-## Project info
+A high-converting, dark-themed single-page application for a Ahmedabad-based personal trainer. Generates leads, schedules trial sessions, restricts bookings to Ahmedabad areas, and includes a secure admin dashboard with analytics.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+### Public Website
+- **Hero Section** — Bold value proposition with CTAs and scarcity badge
+- **About Section** — Trainer profile and credentials
+- **Services Section** — Training programs with descriptions
+- **Pricing Section** — 3 subscription plans (Monthly / Quarterly / Annual)
+- **Transformation Gallery** — Before/after showcase
+- **Testimonials** — Client success stories
+- **Blog & Tips** — SEO-friendly fitness content
+- **FAQ Section** — Common questions with accordion
+- **BMI Calculator** — Interactive tool with personalized recommendations
+- **Referral System** — Unique referral code generation (FIT-XXXXX)
+- **Exit-Intent Popup** — Lead capture on mouse-leave
+- **Countdown Timer** — Daily FOMO timer for limited slots
+- **WhatsApp Button** — Floating quick-chat button
+- **Google Maps** — Service area visualization
+- **Booking Form** — Session booking with Ahmedabad area dropdown
+- **Callback Request** — Lead capture form saved to database
 
-There are several ways of editing your application.
+### Admin Dashboard (`/admin`)
+- **Secure Login** — Email/password authentication with role-based access control
+- **Dashboard** — KPI cards, area-wise analytics (Recharts bar/pie charts), revenue estimates
+- **Bookings** — Searchable/filterable table with status management and CSV export
+- **Callbacks** — Lead list with click-to-call functionality
 
-**Use Lovable**
+### Security
+- Row-Level Security (RLS) on all database tables
+- `has_role()` security-definer function for admin access checks
+- No client-side role checks — all authorization is server-side
+- No anonymous sign-ups
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Tech Stack
+- **Frontend:** React 18, TypeScript, Vite 5, Tailwind CSS 3, Framer Motion
+- **UI Components:** shadcn/ui (Radix UI primitives)
+- **Charts:** Recharts
+- **Backend:** Supabase (PostgreSQL, Auth, RLS)
+- **Icons:** Lucide React
 
-Changes made via Lovable will be committed automatically to this repo.
+## Prerequisites
+- Node.js 18+ (recommended: install via [nvm](https://github.com/nvm-sh/nvm))
+- npm
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Getting Started
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# 1. Clone the repository
+git clone https://github.com/ayush-barot/AayushBarot15.git
+cd AayushBarot15
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# 2. Install dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
+# 3. Set up environment variables
+cp .env.example .env
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 4. Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app will be available at `http://localhost:5173`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Environment Variables
 
-**Use GitHub Codespaces**
+| Variable | Description |
+|----------|-------------|
+| `VITE_SUPABASE_URL` | Supabase project URL |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon/publishable key (client-safe) |
+| `VITE_SUPABASE_PROJECT_ID` | Supabase project identifier |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+All values in `.env.example` are public client-side keys (not the service role key). Copy `.env.example` to `.env` before running.
 
-## What technologies are used for this project?
+## Admin Access
 
-This project is built with:
+The admin dashboard is at `/admin/login`. Access requires:
+1. A Supabase Auth account with email/password
+2. An `admin` role assigned in the `user_roles` table
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+To set up admin access, create a user in Supabase Auth, then insert a row into `user_roles`:
+```sql
+INSERT INTO public.user_roles (user_id, role)
+VALUES ('<user-uuid>', 'admin');
+```
 
-## How can I deploy this project?
+## Database Schema
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+The project uses three Supabase migrations (in `supabase/migrations/`):
+- `bookings` — Session booking requests
+- `callback_requests` — Lead callback requests
+- `user_roles` — Role-based access control with `has_role()` function
+- `referrals` — Referral code tracking
 
-## Can I connect a custom domain to my Lovable project?
+## Available Scripts
 
-Yes, you can!
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Production build |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run unit tests (Vitest) |
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Project Structure
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```
+├── public/                  # Static assets (favicon, robots.txt)
+├── src/
+│   ├── components/          # UI components
+│   │   ├── ui/              # shadcn/ui primitives
+│   │   └── admin/          # Admin-specific components
+│   ├── pages/               # Route pages
+│   │   ├── admin/           # Admin dashboard pages
+│   ├── hooks/               # Custom React hooks
+│   ├── lib/                 # Utility functions
+│   └── integrations/        # Supabase client & types
+├── supabase/
+│   ├── config.toml          # Supabase configuration
+│   └── migrations/          # SQL migration files
+├── .env.example             # Environment variable template
+└── package.json
+```
+
+## Deployment
+
+This project is deployed via [Lovable](https://lovable.dev). To publish:
+1. Open the project in Lovable
+2. Click **Share → Publish**
+
+For custom domains, navigate to **Project > Settings > Domains**.
